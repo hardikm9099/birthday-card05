@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Birthday card</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Dancing Script', cursive;
+      text-align: center;
+      background: linear-gradient(135deg, pink, violet);
+      color: white;
+      overflow: hidden;
+    }
+    .page {
+      display: none;
+      height: 100vh;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .active { display: flex; }
+    h1 {
+      font-size: 50px;
+      text-shadow: 2px 2px 15px #ff69b4;
+      margin-bottom: 30px;
+    }
+    button {
+      padding: 15px 30px;
+      border: none;
+      border-radius: 20px;
+      background: hotpink;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      margin: 10px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    button:hover { 
+      transform: scale(1.1); 
+      box-shadow: 0 0 15px white;
+    }
+    .quote-box {
+      background: rgba(255,255,255,0.2);
+      border: 2px solid white;
+      border-radius: 20px;
+      padding: 20px;
+      margin: 20px;
+      width: 60%;
+      font-size: 26px;
+      text-shadow: 1px 1px 5px #fff;
+      box-shadow: 0 0 20px pink;
+    }
+    img {
+      max-width: 60%;   /* reduced size */
+      border-radius: 20px;
+      box-shadow: 0 0 40px white;
+    }
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: float 6s linear forwards;
+    }
+    .heart::before, .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: 10px; top: 0; }
+    @keyframes float {
+      0% { transform: translateY(0) rotate(45deg); opacity: 1; }
+      100% { transform: translateY(-800px) rotate(45deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Page 1 -->
+  <div id="page1" class="page">
+    <h1>Happy Birthday Parth</h1>
+    <h2>There’s a surprise for you…</h2>
+    <button onclick="openSurprise()">Open</button>
+  </div>
+
+  <!-- Page 2 -->
+  <div id="page2" class="page">
+    <h1>“Are you officially old now?” 😆?</h1>
+    <div>
+      <button onclick="nextPage(3)">Yes 💖</button>
+      <button id="noBtn">No 💔</button>
+    </div>
+  </div>
+
+  <!-- Page 3 -->
+  <div id="page3" class="page">
+    <h1>Happy Birthday</h1>
+    <div class="quote-box">Happy Birthday! May your day be filled with laughter, fun, and everything that makes you smile.”</div>
+    <div class="quote-box">My best wishes are with you; you will become an excellent actress.😆</div>
+    <button onclick="nextPage(4)">Next</button>
+  </div>
+
+  <!-- Page 4 -->
+  <div id="page4" class="page">
+    <h1>Most Irritatingly Adorable child💞</h1>
+    <div class="quote-box">
+      <img src="https://raw.githubusercontent.com/hardikm9099/image2/main/parth2.png" alt="Us Together">
+    </div>
+  </div>
+
+<script>
+  // On load: flood screen with hearts, then reveal Page 1
+  window.onload = () => {
+    spawnHearts(200); // spawn LOTS of hearts
+    setTimeout(() => {
+      document.getElementById('page1').classList.add('active');
+    }, 3000); // after 3 seconds, show Page 1
+  };
+
+  function openSurprise() {
+    spawnHearts(100);
+    setTimeout(() => {
+      nextPage(2);
+    }, 2000);
+  }
+
+  function nextPage(n) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page'+n).classList.add('active');
+  }
+
+  // Spawn many hearts
+  function spawnHearts(count) {
+    for(let i=0; i<count; i++){
+      let heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random()*window.innerWidth+'px';
+      heart.style.top = window.innerHeight+'px';
+      heart.style.animationDuration = (2+Math.random()*4)+'s';
+      document.body.appendChild(heart);
+      setTimeout(()=>heart.remove(),6000);
+    }
+  }
+
+  // Make "No" button run away
+  const noBtn = document.getElementById('noBtn');
+  noBtn.addEventListener('mouseover', () => {
+    noBtn.style.position = 'absolute';
+    noBtn.style.top = Math.random() * (window.innerHeight-50) + 'px';
+    noBtn.style.left = Math.random() * (window.innerWidth-100) + 'px';
+  });
+</script>
+
+</body>
+</html>
